@@ -13,7 +13,7 @@ function setup() {
         this.dialNumber = params.get('number');
       }
       this.services = [
-        { url: this.dialNumber, name: 'Loan' },
+        { url: this.dialNumber, name: '受付' },
         { url: this.dialNumber, name: 'Advice' },
         { url: this.dialNumber, name: 'Credit' },
       ];
