@@ -20,7 +20,7 @@
   >
 
   <div class="header">
-    <img src="./assets/images/NTTEastLogo.png" width="200px">
+    <img src="./assets/images/NTTEastLogo.png" width="200px" style="vertical-align: middle">
   </div>
 
   <div class="home-screen" x-show="page === 'home'">
@@ -45,9 +45,10 @@
     <div class="row">
       <template x-for="service in services">
         <a class="service" x-bind:href="service.url" :class="service.name">
-          <div class="avatar"></div>
+          <div class="avatar"></div> aa 
           <label x-text="service.name"></label>
         </a>
+        bb
       </template>
     </div>
     <button @click="page = 'home'" class="back">Back</button>

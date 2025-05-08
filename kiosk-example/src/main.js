@@ -16,7 +16,7 @@ function setup() {
       this.services = [
         { url: "sip:21", name: '受付', etc: "teset" },
         { url: "sip:22", name: 'Advice', etc: "aaa" },
-        { url: this.dialNumber, name: 'Credit', etc: "" },
+        { url: "sip:23", name: 'Credit', etc: "" },
       ];
     },
     get page() {
@@ -26,7 +26,7 @@ function setup() {
       this.currentPage = nextPage;
     },
     currentLanguage: 'english',
-    languages: ['english', 'norwegian'],
+    languages: ['english', 'japanese'],
     get language() {
       return this.currentLanguage;
     },
