@@ -3,11 +3,13 @@
 
 
 ## kiosk-example
+単純な3 button 選択
 https://yhash01.github.io/kiosk-example/
 
 
 
 ## visitor-kiosk
+複数選択、画面遷移、地図
 https://yhash01.github.io/visitor-kiosk
 
 
