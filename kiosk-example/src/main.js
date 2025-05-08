@@ -2,8 +2,8 @@
 function setup() {
 
   Alpine.store('model', {
-    // currentPage: 'home', // 'home', 'service'
-    currentPage: 'service', 
+    currentPage: 'home', // 'home', 'service'
+    // currentPage: 'service', 
     currentLanguage: 'english',
     dialNumber: 'AAAAerica.talking@ivr.vc',
     services: [],
@@ -14,9 +14,9 @@ function setup() {
         this.dialNumber = params.get('number');
       }
       this.services = [
-        { url: "sip:21", name: '受付', etc: "teset" },
-        { url: "sip:22", name: 'Advice', etc: "aaa" },
-        { url: "sip:23", name: 'Credit', etc: "" },
+        { url: "sip:21", name: '総合受付', etc: "teset", picture: "avatar1.jpg" },
+        { url: "sip:22", name: '総務部', etc: "aaa", picture: "avatar2.jpg" },
+        { url: "sip:23", name: '人事部', etc: "", picture: "ahauge.png" },
       ];
     },
     get page() {

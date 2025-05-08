@@ -41,14 +41,14 @@
   </div>
 
   <div class="service" x-show="page === 'service'">
-    <h2>本日のご用件について触れてください</h2>
+    <h2>本日のご用件について選択してください</h2>
     <div class="row">
       <template x-for="service in services">
         <a class="service" x-bind:href="service.url" :class="service.name">
-          <div class="avatar"></div> aa 
+          <!-- <div class="avatar"></div> -->
+          <img x-bind:src="'./assets/images/'+service.picture" class="avatar">
           <label x-text="service.name"></label>
         </a>
-        bb
       </template>
     </div>
     <button @click="page = 'home'" class="back">Back</button>
