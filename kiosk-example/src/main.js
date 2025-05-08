@@ -15,8 +15,8 @@ function setup() {
       }
       this.services = [
         { url: "sip:21", name: '総合受付', etc: "teset", picture: "avatar1.jpg" },
-        { url: "sip:22", name: '総務部', etc: "aaa", picture: "avatar2.jpg" },
-        { url: "sip:23", name: '人事部', etc: "", picture: "ahauge.png" },
+        { url: "sip:94", name: '総務部', etc: "aaa", picture: "avatar2.jpg" },
+        { url: "sip:95", name: '人事部', etc: "", picture: "ahauge.png" },
       ];
     },
     get page() {
