@@ -23,7 +23,7 @@ body {
   justify-content: center;
   align-items: center;
   font-family: CiscoSansThin, arial;
-  background-image: url('./images/NTTEastLogo.png');
+  /* background-image: url('./images/NTTEastLogo.png'); */
   background-position: 5% 5%;
   background-repeat: no-repeat;
   background-size: 220px auto;
@@ -68,10 +68,13 @@ h1, h2 {
 
 
 .header {
-  vertical-align: top;
-  height: 10%;
+  /* vertical-align: middle; */
+  position: absolute;
+  top: 0%;
+  width: 100%;
   background-color: white;
-  
+  color: blue;
+
 }
 
 .languages {
