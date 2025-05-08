@@ -18,7 +18,7 @@
   <div class="home-screen" x-show="page === 'home'">
     <h1>NTT東日本</h1>
 
-    <h2 @click="page = 'service'" class="touch-to-start">Touch to start</h2>
+    <h2 @click="page = 'service'" class="touch-to-start">ここに触れてください</h2>
 
     <div class="languages">
       <template x-for="current in languages">
@@ -36,7 +36,7 @@
     <h2>Choose Your Service</h2>
     <div class="row">
       <template x-for="service in services">
-        <a class="service" x-bind:href="'sip:'+ service.url" :class="service.name">
+        <a class="service" x-bind:href="service.url" :class="service.name">
           <div class="avatar"></div>
           <label x-text="service.name"></label>
         </a>

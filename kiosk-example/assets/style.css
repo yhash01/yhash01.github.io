@@ -27,7 +27,8 @@ body {
   background-position: 5% 5%;
   background-repeat: no-repeat;
   background-size: 120px auto;
-  background-color: #007481;
+  /* background-color: #007481; */
+  background-color: #0072bc;
   color: white;
   font-size: 36px;
 }
