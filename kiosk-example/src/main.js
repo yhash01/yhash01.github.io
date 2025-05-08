@@ -2,7 +2,8 @@
 function setup() {
 
   Alpine.store('model', {
-    currentPage: 'home', // 'home', 'service'
+    // currentPage: 'home', // 'home', 'service'
+    currentPage: 'service', 
     currentLanguage: 'english',
     dialNumber: 'AAAAerica.talking@ivr.vc',
     services: [],
