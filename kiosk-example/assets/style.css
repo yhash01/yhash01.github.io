@@ -66,6 +66,14 @@ h1, h2 {
   100% { transform: scale(1) }
 }
 
+
+.header {
+  vertical-align: top;
+  height: 10%;
+  background-color: white;
+  
+}
+
 .languages {
   display: none;
   position: absolute;
