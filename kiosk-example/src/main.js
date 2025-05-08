@@ -13,9 +13,9 @@ function setup() {
         this.dialNumber = params.get('number');
       }
       this.services = [
-        { url: this.dialNumber, name: '受付' },
-        { url: this.dialNumber, name: 'Advice' },
-        { url: this.dialNumber, name: 'Credit' },
+        { url: this.dialNumber, name: '受付', etc: "teset" },
+        { url: this.dialNumber, name: 'Advice', etc: "aaa" },
+        { url: this.dialNumber, name: 'Credit', etc: "" },
       ];
     },
     get page() {
