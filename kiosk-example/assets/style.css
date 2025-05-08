@@ -23,12 +23,12 @@ body {
   justify-content: center;
   align-items: center;
   font-family: CiscoSansThin, arial;
-  background-image: url('./images/ciscologo.png');
+  background-image: url('./images/NTTEastLogo.png');
   background-position: 5% 5%;
   background-repeat: no-repeat;
   background-size: 120px auto;
   /* background-color: #007481; */
-  background-color: #0072bc;
+  background-color: #0072bc;  /* NTT Blue */
   color: white;
   font-size: 36px;
 }
