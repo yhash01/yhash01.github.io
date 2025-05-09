@@ -135,7 +135,9 @@ const dataModel = {
 
   getToken() {
     // TODO perhaps use localStorage intead?  
-    return new URLSearchParams(location.search).get('token');
+    const token = 'ZTAwZTE0OTUtMmU5NS00NmY4LWJjM2ItNDg1NTBmZGZlZWU3YzVlNjA3YmQtMzI0_P0A1_845e382f-ade3-49cf-ae92-cf4cdcfd1580';
+    return token;
+    // return new URLSearchParams(location.search).get('token');
   },
 
   next() {
@@ -143,7 +145,8 @@ const dataModel = {
     const { page } = this;
 
     if (page === 'home') {
-      this.checkIn();
+      // this.checkIn();
+      this.findHost();
     }
     else if (page === 'checkIn') {
       this.findHost();
@@ -273,8 +276,9 @@ const dataModel = {
 
   searchHost() {
     const word = this.hostSearch.trim();
-
     const token = this.getToken();
+
+
 
     if (word.length > 0) {
       this.searchStatus = 'Searching...';
