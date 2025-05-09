@@ -134,7 +134,7 @@ const dataModel = {
   },
 
   getToken() {
-    // TODO perhaps use localStorage intead?
+    // TODO perhaps use localStorage intead?  
     return new URLSearchParams(location.search).get('token');
   },
 
@@ -276,7 +276,7 @@ const dataModel = {
 
     const token = this.getToken();
 
-    if (word.length > 2) {
+    if (word.length > 0) {
       this.searchStatus = 'Searching...';
       searchPerson(word, token, list => {
         this.foundHosts = list;
