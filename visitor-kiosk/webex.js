@@ -10,6 +10,7 @@ async function get(url, token) {
     method: 'GET',
     headers: {
       Authorization: 'Bearer ' + token,
+      Accept: '*/*',
     },
   };
   try {
