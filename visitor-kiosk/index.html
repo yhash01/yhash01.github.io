@@ -26,41 +26,41 @@
   </header>
   <main x-show="page === 'home'">
     <h1>Welcome</h1>
-    <div>Visitor please select an action below.</div>
+    <div>ご用件をタッチしてください</div>
     <form class="select-action" @submit.prevent="">
       <div class="action">
-        <button @click="checkOut()" class="secondary">Check out</button>
-        <button @click="next()" class="primary">Check in</button>
+        <button @click="checkOut()" class="secondary">チェックアウト</button>
+        <button @click="next()" class="primary">担当者に連絡</button>
       </div>
     </form>
     <div class="mini-apps">
-      <button class="call" @click="call()">Call Reception</button>
-      <button class="taxi" @click="page = 'taxi'">Taxi</button>
-      <button class="map" @click="page = 'map'">Map</button>
+      <button class="call" @click="call()">受付に電話</button>
+      <button class="taxi" @click="page = 'taxi'">タクシー</button>
+      <button class="map" @click="page = 'map'">周辺地図</button>
     </div>
   </main>
   <main x-show="page === 'checkIn'">
     <h1>Check in</h1>
-    <div>Please enter your name and email below.</div>
+    <div>会社名とお名前をお教えください</div>
     <form class="check-in" @submit.prevent="">
       <div>
-        <input placeholder="Full name" id="name" x-model="name" />
+        <input placeholder="会社名" x-model="company" @keydown.enter.prevent="if (validForm) next()"/>
       </div>
       <div>
-        <input placeholder="Your email address" x-model="email" @keydown.enter.prevent="if (validForm) next()"/>
+        <input placeholder="お名前" id="name" x-model="name" />
       </div>
       <div class="action">
         <button @click="home()" class="secondary">Back</button>
-        <button @click="next()" :disabled="!validForm" class="primary">Continue</button>
+        <button @click="next()" :disabled="!validForm" class="primary">次へ</button>
       </div>
     </form>
   </main>
   <main x-show="page === 'findHost'">
-    <h1>Find your host</h1>
-    <div x-show="!currentHost">Please enter the name of your host.</div>
+    <h1>担当者検索</h1>
+    <div x-show="!currentHost">担当者の名前を入力してください</div>
     <form class="check-in" @submit.prevent="">
       <div>
-        <input placeholder="Host name" id="host" x-model="hostSearch" @input="searchHost()" />
+        <input placeholder="担当者名" id="host" x-model="hostSearch" @input="searchHost()" />
       </div>
       <div class="help" x-text="searchStatus"></div>
       <div class="found-hosts" x-show="foundHosts.length">
@@ -77,18 +77,18 @@
     </form>
   </main>
   <main x-show="page === 'confirmHost'">
-    <h1>Selected Host</h1>
+    <h1>担当者</h1>
     <div class="selected-host" x-show="currentHost">
       <div class="avatar" :style="getAvatar(currentHost)"></div>
       <div class="name" x-text="currentHost && currentHost.displayName"></div>
     </div>
     <div class="action">
       <button @click="back()" class="secondary">Back</button>
-      <button :disabled="!currentHost" @click="next()" class="primary">Continue</button>
+      <button :disabled="!currentHost" @click="next()" class="primary">次へ</button>
     </div>
   </main>
   <main x-show="page === 'photo'">
-    <h1>Take a photo</h1>
+    <h1>担当者が探せるように撮影します</h1>
     <div class="box">
       <video class="webcam" x-show="!photo" autoplay></video>
       <canvas class="photo" x-show="photo"></canvas>
@@ -97,39 +97,41 @@
     </div>
     <div class="action">
       <button :disabled="photoTime > 0" @click="back()" class="secondary">Back</button>
-      <button :disabled="photoTime > 0" @click="takePhotoCountdown()" class="primary" x-show="!photo">Take photo</button>
-      <button @click="takePhotoCountdown()" x-show="photo">Re-take</button>
-      <button :disabled="photoTime > 0" @click="next()" x-show="photo" class="primary">Next</button>
-      <br/>
-      <button @click="next()" class="link">Skip photo</button>
+      <button :disabled="photoTime > 0" @click="takePhotoCountdown()" class="primary" x-show="!photo">撮影</button>
+      <button @click="takePhotoCountdown()" x-show="photo">もう一度</button>
+      <button :disabled="photoTime > 0" @click="next()" x-show="photo" class="primary">次へ</button>
+      
+      <button @click="next()"  x-show="!photo" class="primary">次へ</button>
     </div>
     <audio src="assets/shutter.mp3" id="shutter-sound"></audio>
   </main>
   <main x-show="page === 'confirm'">
-    <h1>Confirm details</h1>
+    <h1>確認してください</h1>
 
     <div class="business-card">
       <img class="photo" :src="photoSrc()" />
+      <div class="company" x-text="company"></div>
       <div class="name" x-text="name"></div>
-      <div class="email" x-text="email"></div>
-      <div class="visiting">Visiting:
+      <!-- <div class="email" x-text="email"></div> -->
+      <div class="visiting">訪問先:
         <span x-text="currentHost && currentHost.displayName"></span>
       </div>
     </div>
     <div class="action">
       <button @click="back()" class="secondary">Back</button>
-      <button @click="next()" :disabled="!validForm" class="primary">Register</button>
+      <button @click="next()" :disabled="!validForm" class="primary">登録</button>
     </div>
   </main>
   <main x-show="page === 'registered'">
     <h1>Welcome <span x-text="name"></span></h1>
-    <div>Your badge is printing. Please wear it during your stay.
+    <div>入館証を印刷しています。
     <p/>
-    We sent a message to
+    ご到着を担当者:
       <span x-text="currentHost && currentHost.displayName"></span>
-      that you have arrived.
+      に通知しました。<br>
+      お迎えに参ります。しばらくお待ち下さい。
     <p/>
-    Grab a coffee or have yourself a drink while you wait.</div>
+    お待ちいただいている間、ドリンクをご自由にお楽しみください。</div>
     <form class="registered" @submit.prevent="">
       <div class="action">
         <button @click="home()" class="primary">OK</button>

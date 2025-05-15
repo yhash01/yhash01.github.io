@@ -1,15 +1,16 @@
-const hostMessage = `Hello! A visitor has just arrived in the reception, and registered you as their host.
+const hostMessage = `お客様が来社しました。受付までお迎えをお願いいたします。
 
 Details:
+* 会社名: **$email**
+* お名前: **$name**
 
-* Name: **$name**
-* Email: **$email**
 `;
 
 const dataModel = {
 // home > checkIn > findHost > confirmHost > photo > confim > registered | checkOut > checkOutResult
   page: 'home',
   name: '',
+  company: '',
   email: '',
   hostSearch: '',
   currentHost: null,
@@ -71,7 +72,8 @@ const dataModel = {
   get validForm() {
     const emailPattern = /\w+@\w+/;
     if (this.page === 'checkIn') {
-      return this.name.trim().length && this.email.match(emailPattern);
+      // return this.name.trim().length && this.email.match(emailPattern);
+      return this.name.trim().length && this.company.trim().length;
     }
     else if (this.page === 'checkOut') {
       return this.email.match(emailPattern);
@@ -148,18 +150,23 @@ const dataModel = {
       // this.checkIn();
       this.findHost();
     }
-    else if (page === 'checkIn') {
-      this.findHost();
-    }
+
     else if (page === 'findHost') {
       this.confirmHost();
     }
     else if (page === 'confirmHost') {
+      // this.showPhotoPage();
+      this.checkIn();
+    }
+    else if (page === 'checkIn') {
+      // this.findHost();
       this.showPhotoPage();
     }
     else if (page === 'photo') {
       this.showConfirmation();
+      // this.checkIn();
     }
+
     else if (page === 'confirm') {
       this.register();
     }
@@ -183,7 +190,8 @@ const dataModel = {
       this.home();
     }
     else if (page === 'findHost') {
-      this.checkIn();
+      // this.checkIn();
+      this.home();
     }
     else if (page === 'confirmHost') {
       this.findHost();
@@ -281,10 +289,10 @@ const dataModel = {
 
 
     if (word.length > 0) {
-      this.searchStatus = 'Searching...';
+      this.searchStatus = '検索中...';
       searchPerson(word, token, list => {
         this.foundHosts = list;
-        this.searchStatus= 'Found: ' + list.length;
+        this.searchStatus= '結果: ' + list.length + '件';
       });
     }
     else {

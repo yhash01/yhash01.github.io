@@ -162,6 +162,7 @@ form {
 }
 
 .name {
+  font-size: 1.2em;
   text-align: left;
 }
 
@@ -275,6 +276,7 @@ button.map {
 }
 
 .business-card .visiting {
+  font-size: 1.7em;
   text-align: left;
 }
 
