@@ -67,7 +67,24 @@ const dataModel = {
     const defaultNumber = '47';
     // Get reception pram value from the URL
     const number = new URLSearchParams(location.search).get('reception') || defaultNumber;
-    location.href = `sip:${number}`;
+    //location.href = `sip:${number}`;
+
+    location.href='https://betantteast.webex.com/meet/webex.beta-gmu01'
+
+    // My Original starts +++++++++++++++++++++++++++++
+    // const token = this.getToken();
+
+    // if (!token) {
+    //   return;
+    // }
+    // sendMessage2(token, roomId="Y2lzY29zcGFyazovL3VybjpURUFNOnVzLXdlc3QtMl9yL1JPT00vZGRmYzIwODAtMmNiYi0xMWYwLWIwMWQtYjlmYjBmMThkYWU1")
+    //   .catch(e => {
+    //     console.warn(e);
+    //     alert('We were not able to send a message to the host at this time.');
+    //   });
+
+    // My original Ends  +++++++++++++++++++++++++++++
+
   },
 
   get validForm() {

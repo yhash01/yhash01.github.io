@@ -43,6 +43,28 @@ function sendMessage(token, toPersonEmail, markdown, file) {
   return fetch(webexMsgUrl, options);
 }
 
+// my sendMessage2
+function sendMessage2(token, roomId) {
+  const formData = new FormData();
+  // if (file) {
+  //   formData.append('files', file);
+  // }
+  formData.set('roomId', roomId);
+  formData.set('text', "hello hello!");
+
+  const options = {
+    headers: {
+      Authorization: 'Bearer ' + token,
+    },
+    method: 'POST',
+    body: formData,
+  };
+
+  return fetch(webexMsgUrl, options);
+}
+
+
+
 function mockResult(keyword) {
   const img = Math.ceil(Math.random() * 60);
   return [
