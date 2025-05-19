@@ -1,4 +1,4 @@
-const hostMessage = `お客様が来社しました。受付までお迎えをお願いいたします。
+const hostMessage = `お客様が来社しました。受付までお迎えお願いいたします。
 
 Details:
 * 会社名: **$email**
@@ -64,7 +64,8 @@ const dataModel = {
   },
 
   call() {
-    const defaultNumber = 'erica.talking@ivr.vc';
+    const defaultNumber = '47';
+    // Get reception pram value from the URL
     const number = new URLSearchParams(location.search).get('reception') || defaultNumber;
     location.href = `sip:${number}`;
   },

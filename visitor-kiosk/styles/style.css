@@ -59,9 +59,9 @@ h2 {
 }
 
 .logo {
-  width: 5em;
-  height: 3em;
-  background: center/contain url('../assets/cisco-logo.png') no-repeat;
+  width: 10em;
+  /* height: 3em; */
+  background: center/contain url('../assets/NTTEastLogo.png') no-repeat;
 }
 
 .time-date {
