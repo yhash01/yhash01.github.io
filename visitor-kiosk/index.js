@@ -69,7 +69,7 @@ const dataModel = {
     const number = new URLSearchParams(location.search).get('reception') || defaultNumber;
     //location.href = `sip:${number}`;
 
-    location.href='https://betantteast.webex.com/meet/webex.beta-gmu01'
+    location.href='sip:webex.beta-gmu01@betantteast.webex.com'
 
     // My Original starts +++++++++++++++++++++++++++++
     // const token = this.getToken();
