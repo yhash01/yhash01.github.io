@@ -50,7 +50,7 @@ function setup() {
       }
       
       this.services = [
-        { tel: "50", url: "sip:50", japanese: '総合受付', english: 'Reception', chinese: '一般接待', korean: '종합 접수', picture: "avatar2.jpg" },
+        { tel: "50", url: "sip:50", japanese: '総合受付', english: 'Reception', chinese: '一般接待', korean: '종합 접수', picture: "avatar2.png" },
         { tel: "94", url: "sip:94", japanese: '総務部', english: 'GA Dept.', chinese: '总务部', korean: "총무부", picture: "avatar2.jpg" },
         { tel: "95", url: "sip:95", japanese: '人事部', english: 'Human Resource', chinese: "人事部", korean: "인사부", picture: "ahauge.png" },
       ];
