@@ -1,23 +1,60 @@
 
 function setup() {
+  Alpine.store('texts', {
+    lang: {
+      japanese: "日本語",
+      english: "English",
+      chinese: "中文",
+      korean: "한국어",
+    },
+    welcome: { 
+      japanese: "NTT東日本へようこそ",
+      english: "Welcome to NTT East",
+      chinese: "欢迎来到 NTT东日本",
+      korean: "NTT 동일본에 오신 것을 환영합니다",
+    },
+    touchToStart: { 
+      japanese: "ここに触れてください",
+      english: "Please Touch Here",
+      chinese: "触摸这里",
+      korean: "여기를 만져주세요",
+    },
+    selectOption: { 
+      japanese: "本日のご用件について選択してください",
+      english: "What can we help you?",
+      chinese: "请选择您今天的业务",
+      korean: "오늘의 문제에 대해 선택하십시오",
+    },
+    
+  });
+
 
   Alpine.store('model', {
     currentPage: 'home', // 'home', 'service'
     // currentPage: 'service', 
-    currentLanguage: 'english',
+    currentLanguage: 'japanese',
     dialNumber: 'AAAAerica.talking@ivr.vc',
     services: [],
+    callingScheme: 'sip:',
+
+    
 
     init() {
       const params = new URLSearchParams(location.search);
       if (params.has('number')) {
         this.dialNumber = params.get('number');
       }
+
+      if (params.has('webexapp')){
+        this.callingScheme = 'webextel:'
+      }
+      
       this.services = [
-        { url: "sip:50", name: '総合受付', etc: "teset", picture: "avatar1.jpg" },
-        { url: "sip:94", name: '総務部', etc: "aaa", picture: "avatar2.jpg" },
-        { url: "sip:95", name: '人事部', etc: "", picture: "ahauge.png" },
+        { tel: "50", url: "sip:50", japanese: '総合受付', english: 'Reception', chinese: '一般接待', korean: '종합 접수', picture: "avatar2.jpg" },
+        { tel: "94", url: "sip:94", japanese: '総務部', english: 'GA Dept.', chinese: '总务部', korean: "총무부", picture: "avatar2.jpg" },
+        { tel: "95", url: "sip:95", japanese: '人事部', english: 'Human Resource', chinese: "人事部", korean: "인사부", picture: "ahauge.png" },
       ];
+ 
     },
     get page() {
       return this.currentPage;
@@ -25,8 +62,8 @@ function setup() {
     set page(nextPage) {
       this.currentPage = nextPage;
     },
-    currentLanguage: 'english',
-    languages: ['english', 'japanese'],
+    currentLanguage: 'japanese',
+    languages: ['japanese','english', 'chinese', 'korean'],
     get language() {
       return this.currentLanguage;
     },

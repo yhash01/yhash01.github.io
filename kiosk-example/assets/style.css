@@ -78,7 +78,7 @@ h1, h2 {
 }
 
 .languages {
-  display: none;
+  /* display: none; */
   position: absolute;
   bottom: 5vw;
   right: 5vw;
@@ -86,6 +86,7 @@ h1, h2 {
 
 .language.selected {
   font-weight: bold;
+  color: lightgreen;
 }
 
 .row {
