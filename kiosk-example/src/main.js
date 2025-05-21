@@ -4,7 +4,7 @@ function setup() {
     lang: {
       japanese: "日本語",
       english: "English",
-      chinese: "中文",
+      chinese: "简体中文",
       korean: "한국어",
     },
     welcome: { 
