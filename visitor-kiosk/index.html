@@ -37,6 +37,7 @@
       <button class="call" @click="call()">受付に電話</button>
       <button class="taxi" @click="page = 'taxi'">タクシー</button>
       <button class="map" @click="page = 'map'">周辺地図</button>
+      <button class="map" @click="page = 'webpage'">web page</button>
     </div>
   </main>
   <main x-show="page === 'checkIn'">
@@ -190,6 +191,22 @@
     <iframe
       :src="mapUrl"
       width="800"
+      height="650"
+      style="border:0;"
+      allowfullscreen=""
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"
+    ></iframe>
+
+    <div class="action">
+      <button @click="home()">Back</button>
+    </div>
+  </main>
+  <main x-show="page === 'webpage'">
+    <h1>Area map</h1>
+    <iframe
+      src="https://www.accuweather.com/en/jp/tokyo/226396/weather-forecast/226396"
+      width="1200"
       height="650"
       style="border:0;"
       allowfullscreen=""

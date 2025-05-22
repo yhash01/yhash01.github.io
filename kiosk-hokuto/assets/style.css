@@ -23,10 +23,11 @@ body {
   justify-content: center;
   align-items: center;
   font-family: CiscoSansThin, arial;
-  /* background-image: url('./images/hokuto_logo.png'); */
-  background-position: 5% 5%;
+  backdrop-filter: blur(4px);
+  /* background-image: url('./images/Hokto_Corporation,_Nagano_HQ.jpg');   */
+  background-position: 50% 50%;
   background-repeat: no-repeat;
-  background-size: 220px auto;
+  background-size: 1020px auto;
   /* background-color: #007481; */
   background-color: white;  
   /* NTT Blue */

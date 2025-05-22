@@ -1,4 +1,6 @@
+const roomId="Y2lzY29zcGFyazovL3VybjpURUFNOnVzLXdlc3QtMl9yL1JPT00vZGRmYzIwODAtMmNiYi0xMWYwLWIwMWQtYjlmYjBmMThkYWU1"
 const hostMessage = `お客様が来社しました。受付までお迎えお願いいたします。
+
 
 Details:
 * 会社名: **$email**
