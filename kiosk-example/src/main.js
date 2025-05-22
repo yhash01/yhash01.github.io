@@ -17,13 +17,13 @@ function setup() {
       japanese: "ここに触れてください",
       english: "Please Touch Here",
       chinese: "触摸这里",
-      korean: "여기를 만져주세요",
+      korean: "여기를 터치해주세요",
     },
     selectOption: { 
       japanese: "本日のご用件について選択してください",
       english: "What can we help you?",
       chinese: "请选择您今天的业务",
-      korean: "오늘의 문제에 대해 선택하십시오",
+      korean: "용건을 선택해 주십시오",
     },
     
   });
@@ -50,9 +50,9 @@ function setup() {
       }
       
       this.services = [
-        { tel: "50", url: "sip:50", japanese: '総合受付', english: 'Reception', chinese: '一般接待', korean: '종합 접수', picture: "avatar2.png" },
-        { tel: "94", url: "sip:94", japanese: '総務部', english: 'GA Dept.', chinese: '总务部', korean: "총무부", picture: "avatar2.jpg" },
-        { tel: "95", url: "sip:95", japanese: '人事部', english: 'Human Resource', chinese: "人事部", korean: "인사부", picture: "ahauge.png" },
+        { tel: "50", url: "sip:50", japanese: '総合受付', english: 'Reception', chinese: '一般接待', korean: '종합접수센터', picture: "avatar2.png" },
+        { tel: "94", url: "sip:94", japanese: '総務部', english: 'GA Dept.', chinese: '总务部', korean: "총무부 접수창구", picture: "avatar2.jpg" },
+        { tel: "95", url: "sip:95", japanese: '人事部', english: 'Human Resource', chinese: "人事部", korean: "인사부 접수창구", picture: "ahauge.png" },
       ];
  
     },

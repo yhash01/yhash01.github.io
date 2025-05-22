@@ -1,2 +1,2 @@
-myUrlScheme = "webextel:";
+
 
