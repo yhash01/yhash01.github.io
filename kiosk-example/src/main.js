@@ -1,4 +1,11 @@
 
+function setCalledNum(service) {
+  const params = new URLSearchParams(location.search);
+  calledNum = params.get(service.name) || service.tel;
+  return calledNum;
+}
+
+
 function setup() {
   Alpine.store('texts', {
     lang: {
@@ -29,6 +36,9 @@ function setup() {
   });
 
 
+
+
+
   Alpine.store('model', {
     currentPage: 'home', // 'home', 'service'
     // currentPage: 'service', 
@@ -50,9 +60,9 @@ function setup() {
       }
       
       this.services = [
-        { tel: "50", url: "sip:50", japanese: '総合受付', english: 'Reception', chinese: '一般接待', korean: '종합접수센터', picture: "woman1.jpg" },
-        { tel: "94", url: "sip:94", japanese: '総務部', english: 'GA Dept.', chinese: '总务部', korean: "총무부 접수창구", picture: "avatar2.png" },
-        { tel: "95", url: "sip:95", japanese: '人事部', english: 'Human Resource', chinese: "人事部", korean: "인사부 접수창구", picture: "man1.png" },
+        { name: 'a', tel: "8101", japanese: '総合受付', english: 'Reception', chinese: '一般接待', korean: '종합접수센터', picture: "woman1.jpg" },
+        { name: 'b', tel: "8102", japanese: '総務部', english: 'GA Dept.', chinese: '总务部', korean: "총무부 접수창구", picture: "avatar2.png" },
+        { name: 'c', tel: "8103", japanese: '人事部', english: 'Human Resource', chinese: "人事部", korean: "인사부 접수창구", picture: "man1.png" },
       ];
  
     },
