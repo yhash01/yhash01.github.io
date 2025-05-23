@@ -4,11 +4,12 @@
   <meta charset="UTF-8">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Cache-Control" content="no-cache"> 
+  <meta http-equiv="Expires" content="0">
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kiosk</title>
-  <!-- <link rel="icon" type="image/png" href="assets/logo.png"> -->
+  <link rel="shortcut icon" href="assets/images/hokutoFavicon.ico">
   <link rel="stylesheet" href="assets/style.css"></link>
   <script src="src/main.js" defer></script>
   <script src="src/alpine.js" defer></script>
@@ -39,7 +40,8 @@
     <h2 x-text="$store.texts.selectOption[currentLanguage]"></h2>
     <div class="row">
       <template x-for="service in services">
-        <a class="service" x-bind:href="callingScheme + service.tel" :class="service.name">
+        <a class="service" x-bind:href="callingScheme + setCalledNum(service)">
+          <!-- <label x-text="callingScheme + setCalledNum(service)"></label> -->
           <!-- <div class="avatar"></div> -->
           <img x-bind:src="'./assets/images/'+service.picture" class="avatar">
 
