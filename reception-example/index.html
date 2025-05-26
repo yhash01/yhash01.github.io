@@ -10,6 +10,9 @@
   <script src="index.js" defer></script>
   <script src="alpine.js" defer></script>
   <script src="jsQR.js"></script> 
+
+
+
   <!-- <script src="script.js"></script> -->
 
   <title>Cisco Visitor Kiosk</title>
@@ -22,11 +25,17 @@
   <header>
     <div @click="location.reload()" class="logo"></div>
     <div class="time-date">
+     
       <div class="date" x-text="date"></div>
       <div class="time" x-text="time"></div>
     </div>
   </header>
+
+ 
+
+
   <main x-show="page === 'home'">
+   
     <h1>Welcome</h1>
     <div>ご用件をタッチしてください</div>
     <form class="select-action" @submit.prevent="">
@@ -37,9 +46,9 @@
     </form>
     <div class="mini-apps">
       <button class="call" @click="call()">受付に電話</button>
-      <button class="taxi" @click="page = 'taxi'">タクシー</button>
+      <!-- <button class="taxi" @click="page = 'taxi'">タクシー</button> -->
       <button class="map" @click="page = 'map'">周辺地図</button>
-      <button class="map" @click="page = 'webpage'">web page</button>
+      <button class="map" @click="page = 'webpage'">天気</button>
     </div>
   </main>
 
@@ -226,22 +235,23 @@
       referrerpolicy="no-referrer-when-downgrade"
     ></iframe>
 
+
+
     <div class="action">
       <button @click="home()">Back</button>
     </div>
   </main>
-  <main x-show="page === 'webpage'">
-    <h1>Area map</h1>
-    <iframe
-      src="https://www.accuweather.com/en/jp/tokyo/226396/weather-forecast/226396"
-      width="1200"
-      height="650"
-      style="border:0;"
-      allowfullscreen=""
-      loading="lazy"
-      referrerpolicy="no-referrer-when-downgrade"
-    ></iframe>
 
+  <main x-show="page === 'webpage'" >
+    <!-- <h1>天気予報</h1> -->
+    <!-- <iframe width="800" height=50></iframe> -->
+    <!-- <div boarder="1" height="200px" width="500px">
+      <a width=800 class="weatherwidget-io" href="https://forecast7.com/ja/35d69139d69/tokyo/" data-label_1="TOKYO" data-label_2="Osaka" data-font="ヒラギノ角ゴ Pro W3" data-theme="original" >TOKYO</a>
+    </div> -->
+
+    <div width="800" id="ww_748a3f9da7e61" v='1.3' loc='id' a='{"t":"horizontal","lang":"ja","sl_lpl":1,"ids":["wl926"],"font":"Arial","sl_ics":"one_a","sl_sot":"celsius","cl_bkg":"#FFFFFF","cl_font":"#000000","cl_cloud":"#d4d4d4","cl_persp":"#2196F3","cl_sun":"#FFC107","cl_moon":"#FFC107","cl_thund":"#FF5722"}'>More forecasts: <a href="https://oneweather.org/ja/tokyo/10_days/" id="ww_748a3f9da7e61_u" target="_blank">天気予報 10日間 東京</a></div><script async src="https://app3.weatherwidget.org/js/?id=ww_748a3f9da7e61"></script>
+
+    <div width="1000" id="ww_4fe194ce370aa" v='1.3' loc='id' a='{"t":"responsive","lang":"ja","sl_lpl":1,"ids":["wl926"],"font":"Arial","sl_ics":"one_a","sl_sot":"celsius","cl_bkg":"#FFFFFF00","cl_font":"#000000","cl_cloud":"#d4d4d4","cl_persp":"#2196F3","cl_sun":"#FFC107","cl_moon":"#FFC107","cl_thund":"#FF5722","sl_tof":"7","cl_odd":"#00000000"}'>More forecasts: <a href="https://oneweather.org/ja/tokyo/10_days/" id="ww_4fe194ce370aa_u" target="_blank">天気予報 10日間 東京</a></div><script async src="https://app3.weatherwidget.org/js/?id=ww_4fe194ce370aa"></script>
     <div class="action">
       <button @click="home()">Back</button>
     </div>

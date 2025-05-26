@@ -31,7 +31,8 @@ const dataModel = {
   videoStream: null,
   phoneNumber: '',
   taxiNumber: '',
-  mapUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d733.7017395965593!2d138.24138020610994!3d36.66417184564897!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x601d88a0e023e8c7%3A0x7694d118895d2136!2z44Ob44Kv44OI55Sj5qWt77yI5qCq77yJIOacrOekvg!5e0!3m2!1sen!2sjp!4v1746151639124!5m2!1sen!2sjp',
+  mapUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d833.923518195007!2d139.68795750780544!3d35.683563646795704!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6018f32da32243c5%3A0xda16111073f80830!2sNTT%20East%20Headquarters!5e0!3m2!1sen!2sjp!4v1748232574197!5m2!1sen!2sjp',
+  
   qrVideo: null,
   qrVideoWidth: 0,
   qrVideoHeight: 0,
