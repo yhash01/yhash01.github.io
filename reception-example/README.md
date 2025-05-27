@@ -1,5 +1,8 @@
 # QR Code format
-'{"issuer":"NTTEast", "bookDateTime": "2025-05-26T09:01:00+09:00", "bookRoom": "応接室１", "guest": "株式会社DX 是星衣", "host": "ビジネス開発本部 電電未来", "hostExtension": "8101", "hostEmail": "webex.beta-gm+u01@east.ntt.co.jp"}';
+{"issuer":"NTTEast", "bookDateTime": "2025-05-26T09:01:00+09:00", "bookRoom": "応接室１", "guest": "株式会社DX 是星衣", "host": "ビジネス開発本部 電電未来", "hostExtension": "8101", "hostEmail": "webex.beta-gm+u01@east.ntt.co.jp"}
+
+QR code generator
+
 
 
 

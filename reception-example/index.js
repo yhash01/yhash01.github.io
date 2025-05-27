@@ -1,13 +1,13 @@
-const roomId="Y2lzY29zcGFyazovL3VybjpURUFNOnVzLXdlc3QtMl9yL1JPT00vZGRmYzIwODAtMmNiYi0xMWYwLWIwMWQtYjlmYjBmMThkYWU1"
-const hostMessage = `お客様が来社しました。受付までお迎えお願いいたします。
-
+const defaultRoomId="Y2lzY29zcGFyazovL3VybjpURUFNOnVzLXdlc3QtMl9yL1JPT00vZGRmYzIwODAtMmNiYi0xMWYwLWIwMWQtYjlmYjBmMThkYWU1";
+const defaultToken = 'ZTAwZTE0OTUtMmU5NS00NmY4LWJjM2ItNDg1NTBmZGZlZWU3YzVlNjA3YmQtMzI0_P0A1_845e382f-ade3-49cf-ae92-cf4cdcfd1580';
+const hostMessage = `
+お客様が来社しました。受付までお迎えお願いいたします。
 
 Details:
-* 会社名: **$email**
+* 会社名: **$company**
 * お名前: **$name**
 
 `;
-
 
 
 
@@ -78,6 +78,7 @@ const dataModel = {
 
   reset() {
     this.name = '';
+    this.company = '';
     this.email = '';
     this.currentHost = null;
     this.foundHosts = [];
@@ -127,8 +128,11 @@ const dataModel = {
   },
 
   qrCheckIn() {
+    // document.getElementById('qr-msg').textContent ='';
     this.page = 'qrCheckIn';
     this.focus('#qr-msg');
+    document.getElementById('qr-msg').textContent = '受付QRコードをカメラにかざしてください';
+    
 
     this.qrVideo = document.getElementById('myVideo');
     const qrMedia =  navigator.mediaDevices.getUserMedia({ audio: false, video: {width:400, height:400, frameRate:5} })
@@ -194,8 +198,10 @@ const dataModel = {
       
       // jsQRに渡して QR Code 情報取得
       console.log("imageData=", imageData);
+   
 
       const code = jsQR(imageData.data, this.qrContentWidth, this.qrContentHeight);
+      
 
       // 検出結果に合わせて処理を実施
       if (code) {
@@ -206,21 +212,46 @@ const dataModel = {
    
         // {"issuer": "NTTEast", "bookDateTime": "2025-05-25T13:35", "bookRoom": "応接室１", "guest": "お客様会社名:お客様A", "host": "ビジネス開発本部:東太郎"}
         // const data= '{"issuer": "NTTEast", "bookDateTime": "2025-05-25T13:35", "bookRoom": "応接室１", "guest": "お客様会社名:お客様A", "host": "ビジネス開発本部 電電太郎"}';
-        const data= '{"a":1123, "issuer":"NTTEast", "bookDateTime": "2025-05-26T09:01:00+09:00", "bookRoom": "応接室１", "guest": "株式会社DX 是星衣", "host": "ビジネス開発本部 電電未来", "hostExtension": "8101", "hostEmail": "webex.beta-gm+u01@east.ntt.co.jp"}';
-        // const parsed=JSON.parse(data);
-        console.log(data);
-        
-        ret=this.qrCheckData(data);
-        console.log("reason: ", ret.reason);
-        if(ret.result == true) {
-          this.qrStopCamera();
+        // const data= '{"issuer":"NTTEast", "bookDateTime": "2025-05-26T09:01:00+09:00", "bookRoom": "応接室１", "guest": "株式会社DX 是星衣", "host": "ビジネス開発本部 電電未来", "hostExtension": "8101", "hostEmail": "webex.beta-gm+u01@east.ntt.co.jp"}';
+        try {
+          // const data =JSON.parse(code.data);
+          const data = code.data;
 
-          this.page = "qrConfirm";
+          console.log(data);
+          
+          ret=this.qrCheckData(data);
+          console.log("reason: ", ret.reason);
+          if(ret.result == true) {
+            this.qrStopCamera();
 
-        } else {
-          document.getElementById('qr-msg').textContent = ret.reason;
+            // send message to the host
+            msg="## お客様来社通知\n**" + this.guest + "** 様が到着されました。\n**" + this.bookRoom + "** にてお待ちです。";
+            const token=this.getToken();
+
+          
+            sendMessage(token, this.hostEmail, msg, this.photo)
+            .catch(e => {
+              console.warn(e);
+              alert('We were not able to send a message to the host at this time.');
+            });
+            
+            const message="### お客様来社通知" + "\n * お客様名: " + this.guest + "\n * 部屋: " + this.bookRoom + "\n * 担当: " + this.host + "\n";
+
+            const roomId = this.getRoomId();
+            sendMessageRoom(token, roomId, message)
+            .catch(e => {
+              console.warn(e);
+              alert('We were not able to send a message to the host at this time.');
+            });
+
+            this.page = "qrConfirm";
+
+          } else {
+            document.getElementById('qr-msg').textContent = ret.reason;
+          }
+        } catch (e) {
+          console.log("JSON Parse error.", e)
         }
-
 
 
       } else {
@@ -250,7 +281,7 @@ const dataModel = {
       const objData=JSON.parse(data);
 
       if(objData == null) {  // Invalid JSON data
-        console.log("objData=null");
+        // console.log("objData=null");
         result=false;
         reason="弊社のデータではありません"
         return {result, reason};
@@ -306,7 +337,7 @@ const dataModel = {
     } catch (e)  {
       // console.log("Not Valid Data.", e);
       result=false;
-      reason="Not Valid Data."
+      reason="Not Valid Data. 弊社のQRコードではありません。"
       return {result, reason};    
       // return ({"false", "Not Valid Data."});
 
@@ -346,7 +377,7 @@ const dataModel = {
     this.page = 'registered';
     const msg = hostMessage
       .replace('$name', this.name.trim())
-      .replace('$email', this.email.trim());
+      .replace('$company', this.company.trim());
     if (!this.currentHost) {
       return;
     }
@@ -362,6 +393,20 @@ const dataModel = {
         console.warn(e);
         alert('We were not able to send a message to the host at this time.');
       });
+    
+
+    const message="### お客様来社通知" + "\n * お客様名: " + this.guest + "\n * 部屋: " + this.bookRoom + "\n * 担当: " + this.host + "\n";
+
+    const roomId = this.getRoomId();
+    if (!roomId){
+      return;
+    }
+    sendMessageRoom(token, roomId, message)
+    .catch(e => {
+      console.warn(e);
+      alert('We were not able to send a message to the host at this time.');
+    });
+
    },
 
   selectHost(host) {
@@ -374,8 +419,19 @@ const dataModel = {
 
   getToken() {
     // TODO perhaps use localStorage intead?  
-    const token = 'ZTAwZTE0OTUtMmU5NS00NmY4LWJjM2ItNDg1NTBmZGZlZWU3YzVlNjA3YmQtMzI0_P0A1_845e382f-ade3-49cf-ae92-cf4cdcfd1580';
+     
+    token = new URLSearchParams(location.search).get('token') || defaultToken;
+    console.log("token=", token);
     return token;
+    // return new URLSearchParams(location.search).get('token');
+  },
+
+  getRoomId() {
+    // TODO perhaps use localStorage intead?  
+     
+    roomId = new URLSearchParams(location.search).get('roomId') || defaultRoomId;
+    console.log("roomId=", roomId);
+    return roomId;
     // return new URLSearchParams(location.search).get('token');
   },
 
@@ -384,9 +440,14 @@ const dataModel = {
     const { page } = this;
 
     if (page === 'home') {
-      this.findHost();   
+      this.checkIn();
+      // this.findHost();   
 
       //  this.showPhotoPage(); 
+    } 
+    else if (page === 'checkIn') {
+      // this.findHost();
+      this.findHost();
     }
 
     else if (page === 'findHost') {
@@ -396,10 +457,6 @@ const dataModel = {
       this.showPhotoPage();
       // this.checkIn();
     }
-    else if (page === 'checkIn') {
-      // this.findHost();
-      this.showPhotoPage();
-    }
     else if (page === 'photo') {
       this.showConfirmation();
       // this.checkIn();
@@ -408,6 +465,7 @@ const dataModel = {
     else if (page === 'confirm') {
       this.register();
     }
+
     else if (page === 'checkOut') {
       this.page = 'checkOutResult';
     }
@@ -428,8 +486,8 @@ const dataModel = {
       this.home();
     }
     else if (page === 'findHost') {
-      // this.checkIn();
-      this.home();
+      this.checkIn();
+      // this.home();
     }
     else if (page === 'confirmHost') {
       this.findHost();
@@ -444,6 +502,10 @@ const dataModel = {
       console.error('unknown previous page');
     }
 
+  },
+
+  checkIn() {
+    this.page = 'checkIn';
   },
 
   showConfirmation() {

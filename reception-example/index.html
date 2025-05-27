@@ -17,7 +17,7 @@
 
   <title>Cisco Visitor Kiosk</title>
 
-  <link rel="icon" href="./assets/logo.png">
+  <link rel="icon" href="./assets/icon.png">
   <link href="styles/style.css" rel="stylesheet">
 </head>
 
@@ -52,7 +52,7 @@
     </div>
   </main>
 
-  <main x-show="page === 'qrCheckIn'">
+  <main x-show="page === 'qrCheckIn'" x-cloak>
     <h2>QR コード読み取り</h2>
     <div  id="qr-msg">受付QRコードをカメラにかざしてください</div>
 
@@ -62,25 +62,12 @@
         <canvas id="camera-canvas" s-show="qrCheckIn"></canvas>
         <canvas id="rect-canvas" s-show="qrCheckIn"></canvas>
         
-      <!-- <video class="webcam" x-show="!photo" autoplay></video>
-      <canvas class="photo" x-show="photo"></canvas>
-      <div class="countdown" x-text="photoTime" x-show="photoTime > 0"></div>
-      <div class="photo-flash"></div> -->
-
     </div>
     <div class="action">
         <button @click="home()" class="secondary">Back</button>
 
       </div>
-    <!-- <form class="check-in" @submit.prevent="">
-      <div>
-        <input placeholder="会社名" x-model="company" @keydown.enter.prevent="if (validForm) next()"/>
-      </div>
-      <div>
-        <input placeholder="お名前" id="name" x-model="name" />
-      </div>
 
-    </form> -->
   </main>
   <main x-show="page === 'qrConfirm'">
     <h1>受付完了</h1>
@@ -91,6 +78,24 @@
       <div class="action">
         <button @click="home()" class="secondary">閉じる</button>
       </div>
+  </main>
+
+  <main x-show="page === 'checkIn'">
+    <!-- <h1>お名前入力</h1> -->
+    <div>お名前をお教えください</div>
+        <form class="check-in" @submit.prevent="">
+      <div>
+        <input placeholder="会社名" x-model="company" @keydown.enter.prevent="if (validForm) next()"/>
+      </div>
+      <div>
+        <input placeholder="お名前" id="name" x-model="name" />
+      </div>
+
+      <div class="action">
+        <button @click="back()" class="secondary">Back</button>
+        <button @click="next()" class="primary"  :disabled="!validForm" >次へ</button>
+      </div>
+    </form>
   </main>
 
   <main x-show="page === 'findHost'">
@@ -149,7 +154,7 @@
     <div class="business-card">
       <img class="photo" :src="photoSrc()" />
       <div class="company" x-text="company"></div>
-      <div class="name" x-text="name"></div>
+      <div class="name" x-text="name + ' 様'"></div>
       <!-- <div class="email" x-text="email"></div> -->
       <div class="visiting">訪問先:
         <span x-text="currentHost && currentHost.displayName"></span>
@@ -161,7 +166,7 @@
     </div>
   </main>
   <main x-show="page === 'registered'">
-    <h1>Welcome <span x-text="name"></span></h1>
+    <h1>Welcome</h1> <h2><span x-text="company + ' ' + name + '様'"></span></h2>
     <div>入館証を印刷しています。
     <p/>
     ご到着を担当者:

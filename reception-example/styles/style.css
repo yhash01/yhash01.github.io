@@ -48,6 +48,7 @@ header {
 }
 
 main {
+  color: #0072bc;
   max-width: 1000px;
   display: flex;
   flex-direction: column;
@@ -65,6 +66,7 @@ h2 {
 }
 
 .time-date {
+  color: #0072bc;
   text-align: right;
 }
 
@@ -86,23 +88,28 @@ button, input {
 
 input {
   background-color: #f2f2f2;
+  /* background-color: #0072bc; */
   border-radius: 24px;
-  border: 3px solid black;
+  /* border: 3px solid black; */
+  border: 3px solid #0072bc;
 }
 
 button {
+  color: #0072bc;
   background-color: white;
   cursor: pointer;
 }
 
 button.primary {
-  background-color: black;
+  /* background-color: black; */
+  background-color: #0072bc;
   color: white;
 }
 
 .action button {
   min-width: 290px;
-  border: 3px solid black;
+  /* border: 3px solid black; */
+  border: 3px solid #0072bc;
   border-radius: 24px;
 }
 
@@ -228,6 +235,8 @@ form {
   text-decoration: underline;
 }
 
+
+
 button.call {
   background-image: url('../assets/concierge.png');
 }
@@ -247,7 +256,8 @@ button.map {
   border-radius: 5px;
   box-shadow:0 0 13px #0004;
   font-size: 0.6em;
-  min-height: 9em;
+  min-height: 12em;
+  min-width: 30em;
   margin-bottom: 2em;
   background-color: white;
   color: black;
@@ -257,26 +267,36 @@ button.map {
   position: absolute;
   top: 1em;
   left: 1em;
-  width: 5em;
-  height: 5em;
+  width: 10em;
+  height: 10em;
   border-radius: 5em;
   object-fit: cover;
   background: #9f9c9c;
   border: 0;
 }
 
+.business-card .company {
+  position: absolute;
+  top: 1em;
+  left: 6em;
+  font-size: 2em;
+  text-align: left;
+}
 .business-card .name {
+  position: absolute;
+  top: 2em;
+  left: 6em;
   font-size: 2em;
   margin-bottom: 0.3em;
 }
 
-.business-card .email {
-  font-size: 0.8em;
-  text-align: left;
-}
+
 
 .business-card .visiting {
-  font-size: 1.7em;
+  position: absolute;
+  top: 3em;
+  left: 8em;
+  font-size: 1.5em;
   text-align: left;
 }
 

@@ -44,13 +44,13 @@ function sendMessage(token, toPersonEmail, markdown, file) {
 }
 
 // my sendMessage2
-function sendMessage2(token, roomId) {
+function sendMessageRoom(token, roomId, message) {
   const formData = new FormData();
   // if (file) {
   //   formData.append('files', file);
   // }
   formData.set('roomId', roomId);
-  formData.set('text', "hello hello!");
+  formData.set('text', message);
 
   const options = {
     headers: {
