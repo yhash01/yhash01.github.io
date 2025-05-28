@@ -5,7 +5,13 @@
 ## kiosk-example
 単純な3 button 選択
 https://yhash01.github.io/kiosk-example/
+https://yhash01.github.io/kiosk-hokuto/?webexapp
 
+
+
+## Reception-example
+QR Code 読み取り、カメラ撮影、メンバー検索、メッセージング連携
+https://yhash01.github.io/reception-example/
 
 
 ## visitor-kiosk

@@ -118,7 +118,7 @@ const dataModel = {
       // return this.name.trim().length && this.email.match(emailPattern);
       return this.name.trim().length && this.company.trim().length;
     }
-    else if (this.page === 'checkOut') {
+    else if (this.page === 'checkOut') {S
       return this.email.match(emailPattern);
     }
     else if (this.page === 'taxi') {
@@ -260,7 +260,7 @@ const dataModel = {
         document.getElementById('qr-msg').textContent = '受付QRコードをカメラにかざしてください';
       }
       if(this.page === 'qrCheckIn'){
-        setTimeout(()=>{ qrCheckImage()}, 500);
+        setTimeout(()=>{ qrCheckImage()}, 200);
       }
 
     };

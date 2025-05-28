@@ -1,3 +1,7 @@
+
+
+
+
 # Webex Visitor Kiosk
 
 <img style="height: 400px; width: auto" src="./assets/kiosk.png" />
