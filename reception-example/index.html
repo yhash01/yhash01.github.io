@@ -76,7 +76,9 @@
       <span x-text="'担当者: ' + host + ' が参ります。'"></span>
 
       <div class="action">
-        <button @click="home()" class="secondary">閉じる</button>
+        <button @click="location.href='sip:'+hostExtension" class="secondary" x-show="hostExtension != ''">担当者に電話</button>
+        <button @click="home()" class="primary">閉じる</button>
+       
       </div>
   </main>
 

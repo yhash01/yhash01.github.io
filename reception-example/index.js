@@ -1,5 +1,6 @@
 const defaultRoomId="Y2lzY29zcGFyazovL3VybjpURUFNOnVzLXdlc3QtMl9yL1JPT00vZGRmYzIwODAtMmNiYi0xMWYwLWIwMWQtYjlmYjBmMThkYWU1";
 const defaultToken = 'ZTAwZTE0OTUtMmU5NS00NmY4LWJjM2ItNDg1NTBmZGZlZWU3YzVlNjA3YmQtMzI0_P0A1_845e382f-ade3-49cf-ae92-cf4cdcfd1580';
+const defaultNumber = "8101";
 const hostMessage = `
 お客様が来社しました。受付までお迎えお願いいたします。
 
@@ -85,16 +86,20 @@ const dataModel = {
     this.searchStatus = '';
     this.photo = null;
     this.phoneNumber = '';
+    this.host ='';
+    this.guest = '';
+    this.hostEmail ='';
+    this.hostExtension ='';
     clearInterval(this.photoTimer);
   },
 
   call() {
-    const defaultNumber = '47';
+    // const defaultNumber = '47';
     // Get reception pram value from the URL
     const number = new URLSearchParams(location.search).get('reception') || defaultNumber;
     //location.href = `sip:${number}`;
 
-    location.href='sip:webex.beta-gmu01@betantteast.webex.com'
+    location.href='sip:'+number;
 
     // My Original starts +++++++++++++++++++++++++++++
     // const token = this.getToken();
