@@ -58,7 +58,7 @@ function setup() {
       this.services = [
         { name: 'a', tel: "8101", japanese: '総合受付', english: 'Reception', chinese: '一般接待', korean: '종합접수센터', picture: "ico_eringi.png" },
         { name: 'b', tel: "8102", japanese: '総務部', english: 'GA Dept.', chinese: '总务部', korean: '총무부 접수창구', picture: "ico_hokutokun.png" },
-        { name: 'c', tel: "8103", japanese: '人事部', english: 'Human Resource', chinese: "人事部", korean: '인사부 접수창구', picture: "ico_maitake.png" },
+        { name: 'c', tel: "117", japanese: '時報', english: 'Human Resource', chinese: "人事部", korean: '인사부 접수창구', picture: "ico_maitake.png" },
       ];
  
     },
