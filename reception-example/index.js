@@ -46,6 +46,7 @@ const dataModel = {
   host: '',
   hostExtension: '',
   hostEmail: '',
+  callingScheme: 'sip:',
 
 
   init() {
@@ -54,6 +55,11 @@ const dataModel = {
     const params = new URLSearchParams(location.search);
     this.mapUrl = params.get('map') || this.mapUrl;
     this.theme = params.get('theme');
+
+    if (params.has('webexapp')){
+      this.callingScheme = 'webextel:'
+    }
+
 
     if (this.theme) {
       // <link href="styles/theme-night.css" rel="stylesheet">
@@ -99,23 +105,16 @@ const dataModel = {
     const number = new URLSearchParams(location.search).get('reception') || defaultNumber;
     //location.href = `sip:${number}`;
 
-    location.href='sip:'+number;
+    location.href=this.callingScheme + number;
 
-    // My Original starts +++++++++++++++++++++++++++++
-    // const token = this.getToken();
-
-    // if (!token) {
-    //   return;
-    // }
-    // sendMessage2(token, roomId="Y2lzY29zcGFyazovL3VybjpURUFNOnVzLXdlc3QtMl9yL1JPT00vZGRmYzIwODAtMmNiYi0xMWYwLWIwMWQtYjlmYjBmMThkYWU1")
-    //   .catch(e => {
-    //     console.warn(e);
-    //     alert('We were not able to send a message to the host at this time.');
-    //   });
-
-    // My original Ends  +++++++++++++++++++++++++++++
 
   },
+
+  call2(number) {
+    location.href=this.callingScheme + number;
+
+  },
+
 
   get validForm() {
     const emailPattern = /\w+@\w+/;
@@ -217,7 +216,7 @@ const dataModel = {
    
         // {"issuer": "NTTEast", "bookDateTime": "2025-05-25T13:35", "bookRoom": "応接室１", "guest": "お客様会社名:お客様A", "host": "ビジネス開発本部:東太郎"}
         // const data= '{"issuer": "NTTEast", "bookDateTime": "2025-05-25T13:35", "bookRoom": "応接室１", "guest": "お客様会社名:お客様A", "host": "ビジネス開発本部 電電太郎"}';
-        // const data= '{"issuer":"NTTEast", "bookDateTime": "2025-05-26T09:01:00+09:00", "bookRoom": "応接室１", "guest": "株式会社DX 是星衣", "host": "ビジネス開発本部 電電未来", "hostExtension": "8101", "hostEmail": "webex.beta-gm+u01@east.ntt.co.jp"}';
+        // const data= '{"issuer":"NTTEast", "bookDateTime": "2035-05-26T09:01:00+09:00", "bookRoom": "応接室１", "guest": "株式会社DX 是星衣", "host": "ビジネス開発本部 電電未来", "hostExtension": "8101", "hostEmail": "webex.beta-gm+u01@east.ntt.co.jp"}';
         try {
           // const data =JSON.parse(code.data);
           const data = code.data;

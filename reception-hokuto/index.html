@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <script src="date.format.js"></script>
+  <script src="webex.js"></script>
+  <script src="index.js" defer></script>
+  <script src="alpine.js" defer></script>
+  <script src="jsQR.js"></script> 
+
+
+
+  <!-- <script src="script.js"></script> -->
+
+  <title>Cisco Visitor Kiosk</title>
+
+  <link rel="icon" href="./assets/icon.ico">
+  <link href="styles/style.css" rel="stylesheet">
+</head>
+
+<body x-data="dataModel" x-cloak :class="theme">
+  <header>
+    <div @click="location.reload()" class="logo"></div>
+    <div class="time-date">
+     
+      <div class="date" x-text="date"></div>
+      <div class="time" x-text="time"></div>
+    </div>
+  </header>
+
+ 
+
+
+  <main x-show="page === 'home'">
+   
+    <h1>Welcome</h1>
+    <div>ご用件をタッチしてください</div>
+    <form class="select-action" @submit.prevent="">
+      <div class="action">
+        <button @click="qrCheckIn()" class="secondary">予約あり</button>
+        <button @click="next()" class="primary">当日受付</button>
+      </div>
+    </form>
+    <div class="mini-apps">
+      <button class="call" @click="call()">受付に電話</button>
+      <!-- <button class="taxi" @click="page = 'taxi'">タクシー</button> -->
+      <button class="map" @click="page = 'map'">周辺地図</button>
+      <button class="map" @click="page = 'webpage'">天気</button>
+    </div>
+  </main>
+
+  <main x-show="page === 'qrCheckIn'" x-cloak>
+    <h2>QR コード読み取り</h2>
+    <div  id="qr-msg">受付QRコードをカメラにかざしてください</div>
+
+
+    <div id="wrapper" s-show="qrCheckIn">
+        <video id="myVideo" autoplay muted playsinline width="400" height="400" s-show="qrCheckIn"></video>
+        <canvas id="camera-canvas" s-show="qrCheckIn"></canvas>
+        <canvas id="rect-canvas" s-show="qrCheckIn"></canvas>
+        
+    </div>
+    <div class="action">
+        <button @click="home()" class="secondary">Back</button>
+
+      </div>
+
+  </main>
+  <main x-show="page === 'qrConfirm'">
+    <h1>受付完了</h1>
+      <h3>いらっしゃいませ</h3>
+      <h3 x-text="guest + ' 様'"></h3>
+      <span x-text="bookRoom +' にてお待ち下さい。'"></span>
+      <span x-text="'担当者: ' + host + ' が参ります。'"></span>
+
+      <div class="action">
+        <!-- <button @click="location.href='sip:'+hostExtension" class="secondary" x-show="hostExtension != ''">担当者に電話</button> -->
+        <button @click="call2(hostExtension)" class="secondary" x-show="hostExtension != ''">担当者に電話</button>
+        <button @click="home()" class="primary">閉じる</button>
+       
+      </div>
+  </main>
+
+  <main x-show="page === 'checkIn'">
+    <!-- <h1>お名前入力</h1> -->
+    <div>お名前をお教えください</div>
+        <form class="check-in" @submit.prevent="">
+      <div>
+        <input placeholder="会社名" x-model="company" @keydown.enter.prevent="if (validForm) next()"/>
+      </div>
+      <div>
+        <input placeholder="お名前" id="name" x-model="name" />
+      </div>
+
+      <div class="action">
+        <button @click="back()" class="secondary">Back</button>
+        <button @click="next()" class="primary"  :disabled="!validForm" >次へ</button>
+      </div>
+    </form>
+  </main>
+
+  <main x-show="page === 'findHost'">
+    <h1>担当者検索</h1>
+    <div x-show="!currentHost">担当者の名前を入力してください</div>
+    <form class="check-in" @submit.prevent="">
+      <div>
+        <input placeholder="担当者名" id="host" x-model="hostSearch" @input="searchHost()" />
+      </div>
+      <div class="help" x-text="searchStatus"></div>
+      <div class="found-hosts" x-show="foundHosts.length">
+        <template x-for="host in foundHosts">
+          <div class="host" @click="selectHost(host)">
+            <div class="avatar" :style="getAvatar(host)"></div>
+            <div class="name" x-text="host && host.displayName"></div>
+          </div>
+        </template>
+      </div>
+      <div class="action">
+        <button @click="back()" class="secondary">Back</button>
+      </div>
+    </form>
+  </main>
+  <main x-show="page === 'confirmHost'">
+    <h1>担当者</h1>
+    <div class="selected-host" x-show="currentHost">
+      <div class="avatar" :style="getAvatar(currentHost)"></div>
+      <div class="name" x-text="currentHost && currentHost.displayName"></div>
+    </div>
+    <div class="action">
+      <button @click="back()" class="secondary">Back</button>
+      <button :disabled="!currentHost" @click="next()" class="primary">次へ</button>
+    </div>
+  </main>
+  <main x-show="page === 'photo'">
+    <h1>担当者が探せるように撮影します</h1>
+    <div class="box">
+      <video class="webcam" x-show="!photo" autoplay></video>
+      <canvas class="photo" x-show="photo"></canvas>
+      <div class="countdown" x-text="photoTime" x-show="photoTime > 0"></div>
+      <div class="photo-flash"></div>
+    </div>
+    <div class="action">
+      <button :disabled="photoTime > 0" @click="back()" class="secondary">Back</button>
+      <button :disabled="photoTime > 0" @click="takePhotoCountdown()" class="primary" x-show="!photo">撮影</button>
+      <button @click="takePhotoCountdown()" x-show="photo">もう一度</button>
+      <button :disabled="photoTime > 0" @click="next()" x-show="photo" class="primary">次へ</button>
+      
+      <button @click="next()"  x-show="!photo" class="primary">次へ</button>
+    </div>
+    <audio src="assets/shutter.mp3" id="shutter-sound"></audio>
+  </main>
+  <main x-show="page === 'confirm'">
+    <h1>確認してください</h1>
+
+    <div class="business-card">
+      <img class="photo" :src="photoSrc()" />
+      <div class="company" x-text="company"></div>
+      <div class="name" x-text="name + ' 様'"></div>
+      <!-- <div class="email" x-text="email"></div> -->
+      <div class="visiting">訪問先:
+        <span x-text="currentHost && currentHost.displayName"></span>
+      </div>
+    </div>
+    <div class="action">
+      <button @click="back()" class="secondary">Back</button>
+      <button @click="next()" :disabled="!validForm" class="primary">登録</button>
+    </div>
+  </main>
+  <main x-show="page === 'registered'">
+    <h1>Welcome</h1> <h2><span x-text="company + ' ' + name + '様'"></span></h2>
+    <div>入館証を印刷しています。
+    <p/>
+    ご到着を担当者:
+      <span x-text="currentHost && currentHost.displayName"></span>
+      に通知しました。<br>
+      お迎えに参ります。しばらくお待ち下さい。
+    <p/>
+    お待ちいただいている間、ドリンクをご自由にお楽しみください。</div>
+    <form class="registered" @submit.prevent="">
+      <div class="action">
+        <button @click="home()" class="primary">OK</button>
+      </div>
+    </form>
+  </main>
+  <main x-show="page === 'checkOut'">
+    <h1>Check out</h1>
+    <div>Enter your email to check out.</div>
+    <form @submit.prevent="">
+      <div>
+        <input placeholder="Email address" x-model="email" @keydown.enter.prevent="if (validForm) next()"/>
+      </div>
+      <div class="action">
+        <button @click="home()" class="secondary">Back</button>
+        <button @click="next()" :disabled="!validForm" class="primary">Continue</button>
+      </div>
+    </form>
+  </main>
+  <main x-show="page === 'taxi'">
+    <h1>Call Taxi</h1>
+    <div>Enter your phone number, so the taxi can call you when it arrives.</div>
+    <form @submit.prevent="">
+      <div>
+        <input
+          placeholder="Your phone number"
+          x-model="phoneNumber"
+          @keydown.enter.prevent="if (validForm) next()"
+        />
+      </div>
+      <div class="action">
+        <button @click="home()" class="secondary">Back</button>
+        <button @click="next()" :disabled="!validForm" class="primary">Continue</button>
+      </div>
+    </form>
+  </main>
+  <main x-show="page === 'taxiConfirmed'">
+    <h1>Taxi ordered</h1>
+    <div>It will call your phone when it arrives.</div>
+    <div>
+      Taxi number: <span x-text="taxiNumber"></span>
+    </div>
+    <div class="action">
+      <button @click="home()" class="primary">Done</button>
+    </div>
+  </main>
+  <main x-show="page === 'checkOutResult'">
+    <h1>Checked out</h1>
+    <div>You were checked out. See you soon!</div>
+    <div class="action">
+      <button @click="home()" :disabled="!validForm" class="primary">Continue</button>
+    </div>
+  </main>
+  <main x-show="page === 'map'">
+    <h1>Area map</h1>
+    <iframe
+      :src="mapUrl"
+      width="800"
+      height="650"
+      style="border:0;"
+      allowfullscreen=""
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"
+    ></iframe>
+
+
+
+    <div class="action">
+      <button @click="home()">Back</button>
+    </div>
+  </main>
+
+  <main x-show="page === 'webpage'" >
+    <!-- <h1>天気予報</h1> -->
+
+
+    <div id="ww_eea6f0e30195f" v='1.3' loc='id' a='{"t":"horizontal","lang":"ja","sl_lpl":1,"ids":["wl6858"],"font":"Arial","sl_ics":"one_a","sl_sot":"celsius","cl_bkg":"image","cl_font":"#FFFFFF","cl_cloud":"#FFFFFF","cl_persp":"#81D4FA","cl_sun":"#FFC107","cl_moon":"#FFC107","cl_thund":"#FF5722"}'>More forecasts: <a href="https://oneweather.org/ja/tokyo/10_days/" id="ww_eea6f0e30195f_u" target="_blank">天気 10日間 東京</a></div><script async src="https://app3.weatherwidget.org/js/?id=ww_eea6f0e30195f"></script>
+
+    <div id="ww_cfad65f334732" v='1.3' loc='id' a='{"t":"responsive","lang":"ja","sl_lpl":1,"ids":["wl6858"],"font":"Arial","sl_ics":"one_a","sl_sot":"celsius","cl_bkg":"image","cl_font":"#FFFFFF","cl_cloud":"#FFFFFF","cl_persp":"#81D4FA","cl_sun":"#FFC107","cl_moon":"#FFC107","cl_thund":"#FF5722","sl_tof":"5","el_nme":3,"el_cwi":3,"el_ctm":3}'>More forecasts: <a href="https://oneweather.org/ja/tokyo/10_days/" id="ww_cfad65f334732_u" target="_blank">天気 10日間 東京</a></div><script async src="https://app3.weatherwidget.org/js/?id=ww_cfad65f334732"></script>
+
+    <div class="action">
+      <button @click="home()">Back</button>
+    </div>
+  </main>
+
+
+</body>
+
+</html> 
