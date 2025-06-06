@@ -139,7 +139,7 @@ const dataModel = {
     
 
     this.qrVideo = document.getElementById('myVideo');
-    const qrMedia =  navigator.mediaDevices.getUserMedia({ audio: false, video: {width:400, height:400, frameRate:5} })
+    const qrMedia =  navigator.mediaDevices.getUserMedia({ audio: false, video: {width:800, height:400, frameRate:5} })
     .then((stream) => {
         this.qrVideo.srcObject = stream;
         this.qrVideoWidth = this.qrVideo.clientWidth;
