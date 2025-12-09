@@ -205,7 +205,12 @@ const dataModel = {
    
 
       const code = jsQR(imageData.data, this.qrContentWidth, this.qrContentHeight);
+
+      const qrString='NTTEast,2035-05-26T09:01:00+09:00,応接室1,顧客太郎,cscocube+mu2@gmail.com';
+      const qrArray=qrString.split(',');
+      console.log("issuer=", qrArray[0]);  // issuer
       
+
 
       // 検出結果に合わせて処理を実施
       if (code) {
@@ -217,6 +222,8 @@ const dataModel = {
         // {"issuer": "NTTEast", "bookDateTime": "2025-05-25T13:35", "bookRoom": "応接室１", "guest": "お客様会社名:お客様A", "host": "ビジネス開発本部:東太郎"}
         // const data= '{"issuer": "NTTEast", "bookDateTime": "2025-05-25T13:35", "bookRoom": "応接室１", "guest": "お客様会社名:お客様A", "host": "ビジネス開発本部 電電太郎"}';
         // const data= '{"issuer":"NTTEast", "bookDateTime": "2035-05-26T09:01:00+09:00", "bookRoom": "応接室１", "guest": "株式会社DX 是星衣", "host": "ビジネス開発本部 電電未来", "hostExtension": "8101", "hostEmail": "webex.beta-gm+u01@east.ntt.co.jp"}';
+        
+        
         try {
           // const data =JSON.parse(code.data);
           const data = code.data;
