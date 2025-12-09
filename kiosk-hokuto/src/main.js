@@ -14,7 +14,7 @@ function setup() {
       korean: "한국어",
     },
     welcome: { 
-      japanese: "ホクト産業へようこそ",
+      japanese: "myホクト産業へようこそ",
       english: "Welcome to Hokuto Industory",
       chinese: "欢迎来到 北斗工业",
       korean: "홋토 산업에 오신 것을 환영합니다",
