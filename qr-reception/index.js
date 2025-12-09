@@ -206,10 +206,8 @@ const dataModel = {
 
       const code = jsQR(imageData.data, this.qrContentWidth, this.qrContentHeight);
 
-      const qrString='NTTEast,2035-05-26T09:01:00+09:00,応接室1,顧客太郎,cscocube+mu2@gmail.com';
-      const qrArray=qrString.split(',');
-      console.log("issuer=", qrArray[0]);  // issuer
-      
+
+
 
 
       // 検出結果に合わせて処理を実施
@@ -223,14 +221,18 @@ const dataModel = {
         // const data= '{"issuer": "NTTEast", "bookDateTime": "2025-05-25T13:35", "bookRoom": "応接室１", "guest": "お客様会社名:お客様A", "host": "ビジネス開発本部 電電太郎"}';
         // const data= '{"issuer":"NTTEast", "bookDateTime": "2035-05-26T09:01:00+09:00", "bookRoom": "応接室１", "guest": "株式会社DX 是星衣", "host": "ビジネス開発本部 電電未来", "hostExtension": "8101", "hostEmail": "webex.beta-gm+u01@east.ntt.co.jp"}';
         
-        
+        const qrString='NTTEast,2035-05-26T09:01:00+09:00,応接室1,顧客太郎,cscocube+mu2@gmail.com';
+        const qrArray=qrString.split(',');
+        console.log("issuer=", qrArray[0]);  // issuer
+
+
         try {
           // const data =JSON.parse(code.data);
           const data = code.data;
 
           console.log(data);
           
-          ret=this.qrCheckData(data);
+          ret=this.qrCheckData2(data);
           console.log("reason: ", ret.reason);
           if(ret.result == true) {
             this.qrStopCamera();
@@ -284,6 +286,83 @@ const dataModel = {
     ret = qrCheckData(data);
     console.log("reason: ", ret.reason);
   },
+
+
+
+  qrCheckData2 (data) {
+    let result=false;
+    let reason=""
+    try {
+      const objData=data.split(',');
+
+      if(objData[0] == null) {  // Invalid JSON data
+        // console.log("objData=null");
+        result=false;
+        reason="弊社のデータではありません"
+        return {result, reason};
+
+      } else {  // valid JSON data is fine
+        console.log("objData=", objData);
+        // check issuer
+        if (objData[0] != "NTTEast") { // check issuer
+          reason = "弊社発行のQRコードではありません"
+          return {result, reason};
+        }
+
+        // check Date and Time
+        const date = new Date(objData[1])
+        if (date == "Invalid Date") {
+          reason = "Date: 正しいフォーマットではありません"
+          return {result, reason};
+        } else { // Date format is fine
+          // Check the date is not obsolete
+          const today = new Date(Date.now()) 
+          today.setHours(hours=0, min=0, sec=0);  // 当日以降の予約は許可するために今日の時刻は00:00とする
+          // console.log("getDate()= ", date.getDate(), date.toISOString(), today.toISOString() );
+          if(date < today) {
+            reason = "すでに予約日を過ぎています"
+            return {result, reason};
+          }
+        }
+
+        // check bookRoom field
+        if (objData[2] == null) {
+          reason = "bookRoom:  正しいフォーマットではありません";
+          return {result, reason};
+        }
+
+        // check guest field
+        if (objData[3] == null) {
+          reason = "Guest:  正しいフォーマットではありません";
+          return {result, reason};
+        }
+
+
+        // populate data
+        this.bookDateTime = objData.bookDateTime;
+        this.bookRoom = objData.bookRoom;
+        this.guest = objData.guest;
+        this.host=objData.host;
+        this.hostExtension = objData.hostExtension;
+        this.hostEmail = objData.hostEmail;
+        console.log("guest: ", this.guest);
+
+      
+      }
+    } catch (e)  {
+      // console.log("Not Valid Data.", e);
+      result=false;
+      reason="Not Valid Data. 弊社のQRコードではありません。"
+      return {result, reason};    
+      // return ({"false", "Not Valid Data."});
+
+    }
+    result = true;
+    reason = "Success";
+    return {result, reason};
+  },
+
+
 
   qrCheckData (data) {
     let result=false;
