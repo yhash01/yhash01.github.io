@@ -1,7 +1,15 @@
+// URL params
+// roomId=Y2lzY29zcGFyazovL3VybjpURUFNOnVzLXdlc3QtMl9yL1JPT00vZGRmYzIwODAtMmNiYi0xMWYwLWIwMWQtYjlmYjBmMThkYWU1
+// token=ZTAwZTE0OTUtMmU5NS00NmY4LWJjM2ItNDg1NTBmZGZlZWU3YzVlNjA3YmQtMzI0_P0A1_845e382f-ade3-49cf-ae92-cf4cdcfd1580
+// reception=8101   // extension number for reception
+
+
 const defaultRoomId="Y2lzY29zcGFyazovL3VybjpURUFNOnVzLXdlc3QtMl9yL1JPT00vZGRmYzIwODAtMmNiYi0xMWYwLWIwMWQtYjlmYjBmMThkYWU1";
 const defaultToken = 'ZTAwZTE0OTUtMmU5NS00NmY4LWJjM2ItNDg1NTBmZGZlZWU3YzVlNjA3YmQtMzI0_P0A1_845e382f-ade3-49cf-ae92-cf4cdcfd1580';
 const defaultNumber = "8101";
+const webexSearchByEmailUrl ='https://webexapis.com/v1/people?callingData=true&email=';
 const hostMessage = `
+
 お客様が来社しました。受付までお迎えお願いいたします。
 
 Details:
@@ -122,7 +130,7 @@ const dataModel = {
       // return this.name.trim().length && this.email.match(emailPattern);
       return this.name.trim().length && this.company.trim().length;
     }
-    else if (this.page === 'checkOut') {S
+    else if (this.page === 'checkOut') {
       return this.email.match(emailPattern);
     }
     else if (this.page === 'taxi') {
@@ -221,18 +229,18 @@ const dataModel = {
         // const data= '{"issuer": "NTTEast", "bookDateTime": "2025-05-25T13:35", "bookRoom": "応接室１", "guest": "お客様会社名:お客様A", "host": "ビジネス開発本部 電電太郎"}';
         // const data= '{"issuer":"NTTEast", "bookDateTime": "2035-05-26T09:01:00+09:00", "bookRoom": "応接室１", "guest": "株式会社DX 是星衣", "host": "ビジネス開発本部 電電未来", "hostExtension": "8101", "hostEmail": "webex.beta-gm+u01@east.ntt.co.jp"}';
         
-        const qrString='NTTEast,2035-05-26T09:01:00+09:00,応接室1,顧客太郎,cscocube+mu2@gmail.com';
-        const qrArray=qrString.split(',');
-        console.log("issuer=", qrArray[0]);  // issuer
+        //const data='NTTEast,2035-05-26T09:01:00+09:00,応接室1,顧客太郎,8111,cscocube+mu2@gmail.com';
+
 
 
         try {
           // const data =JSON.parse(code.data);
           const data = code.data;
 
-          console.log("mydata=", data);
+          console.log("mydata=", code.data);
           
-          ret=this.qrCheckData2(data);
+          ret=this.qrCheckData2(data);  // CSV Format
+          // ret=this.qrCheckData(data);   // JSON Format 
           console.log("reason: ", ret.reason);
           if(ret.result == true) {
             this.qrStopCamera();
@@ -339,88 +347,35 @@ const dataModel = {
 
 
         // populate data
-        this.bookDateTime = objData.bookDateTime;
-        this.bookRoom = objData.bookRoom;
-        this.guest = objData.guest;
+        this.bookDateTime = objData[1]
+        this.bookRoom = objData[2];
+        this.guest = objData[3];
         this.host=objData.host;
-        this.hostExtension = objData.hostExtension;
-        this.hostEmail = objData.hostEmail;
+        
+        this.hostEmail = objData[5];
         console.log("guest: ", this.guest);
+        console.log("hostEmail: ", this.hostEmail);
 
-      
-      }
-    } catch (e)  {
-      // console.log("Not Valid Data.", e);
-      result=false;
-      reason="Not Valid Data. 弊社のQRコードではありません。"
-      return {result, reason};    
-      // return ({"false", "Not Valid Data."});
+        const token=this.getToken();
+        searchPersonByEmail(encodeURIComponent("cscocube+mu2@gmail.com"), token, list => { 
+          this.host = list[0].displayName;  // just pick the first guy
+          phoneNumbers= list[0].phoneNumbers;
+          console.log("phoneNumbers=", phoneNumbers);
 
-    }
-    result = true;
-    reason = "Success";
-    return {result, reason};
-  },
-
-
-
-  qrCheckData (data) {
-    let result=false;
-    let reason=""
-    try {
-      const objData=JSON.parse(data);
-
-      if(objData == null) {  // Invalid JSON data
-        // console.log("objData=null");
-        result=false;
-        reason="弊社のデータではありません"
-        return {result, reason};
-
-      } else {  // valid JSON data is fine
-        // console.log("objData=", objData);
-        // check issuer
-        if (objData.issuer != "NTTEast") { // check issuer
-          reason = "弊社発行のQRコードではありません"
-          return {result, reason};
-        }
-
-        // check Date and Time
-        const date = new Date(objData.bookDateTime)
-        if (date == "Invalid Date") {
-          reason = "Date: 正しいフォーマットではありません"
-          return {result, reason};
-        } else { // Date format is fine
-          // Check the date is not obsolete
-          const today = new Date(Date.now()) 
-          today.setHours(hours=0, min=0, sec=0);  // 当日以降の予約は許可するために今日の時刻は00:00とする
-          // console.log("getDate()= ", date.getDate(), date.toISOString(), today.toISOString() );
-          if(date < today) {
-            reason = "すでに予約日を過ぎています"
-            return {result, reason};
+          for (const pn of phoneNumbers){ // get extension
+            console.log("phoneNumber=", pn);
+            if (pn.type == "work_extension"){
+              this.hostExtension=pn.value;
+              break;
+            }
           }
-        }
-
-        // check bookRoom field
-        if (objData.bookRoom == null) {
-          reason = "bookRoom:  正しいフォーマットではありません";
-          return {result, reason};
-        }
-
-        // check guest field
-        if (objData.guest == null) {
-          reason = "Guest:  正しいフォーマットではありません";
-          return {result, reason};
-        }
+          console.log("HOST: ", this.host, this.hostExtension);
+          //this.searchStatus= '結果: ' + list.length + '件';
+        });
 
 
-        // populate data
-        this.bookDateTime = objData.bookDateTime;
-        this.bookRoom = objData.bookRoom;
-        this.guest = objData.guest;
-        this.host=objData.host;
-        this.hostExtension = objData.hostExtension;
-        this.hostEmail = objData.hostEmail;
-        console.log("guest: ", this.guest);
+        //console.log("HOST: ", this.host);
+
 
       
       }
@@ -436,6 +391,10 @@ const dataModel = {
     reason = "Success";
     return {result, reason};
   },
+
+
+
+  
 
 
   qrStopCamera() {
@@ -691,6 +650,8 @@ const dataModel = {
     }
   },
 
+
+
   confirmHost() {
     this.page = 'confirmHost';
   },
@@ -720,5 +681,27 @@ const dataModel = {
     return url;
   }
 };
+
+
+
+async function searchPersonByEmail(keyword, token, callback) {
+  if (!keyword) return;
+  if (!token) {
+    callback(mockResult(keyword));
+    return;
+  }
+
+  currentSearchNumber++;
+  const id = currentSearchNumber; // avoid closure
+  const url = webexSearchByEmailUrl + keyword;
+  const result = await get(url, token);
+
+  // a newer search has been requested, discard this one
+  if (id < currentSearchNumber) {
+    return;
+  }
+
+  callback(result);
+}
 
 
