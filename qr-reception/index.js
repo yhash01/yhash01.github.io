@@ -230,7 +230,7 @@ const dataModel = {
           // const data =JSON.parse(code.data);
           const data = code.data;
 
-          console.log("mydate=", data);
+          console.log("mydata=", data);
           
           ret=this.qrCheckData2(data);
           console.log("reason: ", ret.reason);
@@ -260,7 +260,7 @@ const dataModel = {
             this.page = "qrConfirm";
 
           } else {
-            document.getElementById('qr-msg').textContent = ret.reason;
+            //document.getElementById('qr-msg').textContent = ret.reason;
           }
         } catch (e) {
           console.log("JSON Parse error.", e)
