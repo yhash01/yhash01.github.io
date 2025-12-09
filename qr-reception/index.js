@@ -230,7 +230,7 @@ const dataModel = {
           // const data =JSON.parse(code.data);
           const data = code.data;
 
-          console.log(data);
+          console.log("mydate=", data);
           
           ret=this.qrCheckData2(data);
           console.log("reason: ", ret.reason);
