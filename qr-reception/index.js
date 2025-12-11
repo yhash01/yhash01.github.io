@@ -9,8 +9,7 @@ const defaultToken = 'ZTAwZTE0OTUtMmU5NS00NmY4LWJjM2ItNDg1NTBmZGZlZWU3YzVlNjA3Ym
 const defaultNumber = "8101";
 const webexSearchByEmailUrl ='https://webexapis.com/v1/people?callingData=true&email=';
 const hostMessage = `
-
-お客様が来社しました。受付までお迎えお願いいたします。
+お客様が来社しました。受付までお迎えお願い致します。
 
 Details:
 * 会社名: **$company**
@@ -350,9 +349,9 @@ const dataModel = {
         this.bookDateTime = objData[1]
         this.bookRoom = objData[2];
         this.guest = objData[3];
-        this.host=objData.host;
+        //this.host=objData.host;
         
-        this.hostEmail = objData[5];
+        this.hostEmail = objData[4];
         console.log("guest: ", this.guest);
         console.log("hostEmail: ", this.hostEmail);
 
@@ -427,6 +426,7 @@ const dataModel = {
     const msg = hostMessage
       .replace('$name', this.name.trim())
       .replace('$company', this.company.trim());
+
     if (!this.currentHost) {
       return;
     }
@@ -437,6 +437,8 @@ const dataModel = {
     if (!token) {
       return;
     }
+
+    // send message to host
     sendMessage(token, email, msg, this.photo)
       .catch(e => {
         console.warn(e);
@@ -450,6 +452,8 @@ const dataModel = {
     if (!roomId){
       return;
     }
+
+    // send message to room members
     sendMessageRoom(token, roomId, message)
     .catch(e => {
       console.warn(e);
