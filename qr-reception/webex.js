@@ -50,7 +50,7 @@ function sendMessageRoom(token, roomId, message) {
   //   formData.append('files', file);
   // }
   formData.set('roomId', roomId);
-  formData.set('text', message);
+  formData.set('markdown', message);
 
   const options = {
     headers: {
