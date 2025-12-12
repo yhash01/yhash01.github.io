@@ -11,7 +11,6 @@ const webexSearchByEmailUrl ='https://webexapis.com/v1/people?callingData=true&e
 const hostMessage = `
 お客様が来社しました。受付までお迎えお願い致します。
 
-Details:
 * 会社名: **$company**
 * お名前: **$name**
 
@@ -215,19 +214,12 @@ const dataModel = {
 
 
 
-
-
       // 検出結果に合わせて処理を実施
       if (code) {
         console.log("QRcodeが見つかりました", code);
         drawRect(code.location);
         document.getElementById('qr-msg').textContent = `QRコード: ${code.data}`;
-        // if it is the QR code issued by us
-   
-        // {"issuer": "NTTEast", "bookDateTime": "2025-05-25T13:35", "bookRoom": "応接室１", "guest": "お客様会社名:お客様A", "host": "ビジネス開発本部:東太郎"}
-        // const data= '{"issuer": "NTTEast", "bookDateTime": "2025-05-25T13:35", "bookRoom": "応接室１", "guest": "お客様会社名:お客様A", "host": "ビジネス開発本部 電電太郎"}';
-        // const data= '{"issuer":"NTTEast", "bookDateTime": "2035-05-26T09:01:00+09:00", "bookRoom": "応接室１", "guest": "株式会社DX 是星衣", "host": "ビジネス開発本部 電電未来", "hostExtension": "8101", "hostEmail": "webex.beta-gm+u01@east.ntt.co.jp"}';
-        
+        // if it is the QR code issued by us     
         //const data='NTTEast,2035-05-26T09:01:00+09:00,応接室1,顧客太郎,8111,cscocube+mu2@gmail.com';
 
 
@@ -246,19 +238,20 @@ const dataModel = {
 
             // send message to the host
             msg="## お客様来社通知\n**" + this.guest + "** 様が到着されました。\n**" + this.bookRoom + "** にてお待ちです。";
+              
             const token=this.getToken();
 
           
-            sendMessage(token, this.hostEmail, msg, this.photo)
+            sendMessage(token, this.hostEmail, msg)
             .catch(e => {
               console.warn(e);
               alert('We were not able to send a message to the host at this time.');
             });
             
-            const message="### お客様来社通知" + "\n * お客様名: " + this.guest + "\n * 部屋: " + this.bookRoom + "\n * 担当: " + this.host + "\n";
+            //const message="### お客様来社通知" + "\n * お客様名: " + this.guest + "\n * 部屋: " + this.bookRoom + "\n * 担当: " + this.host + "\n";
 
             const roomId = this.getRoomId();
-            sendMessageRoom(token, roomId, message)
+            sendMessageRoom(token, roomId, msg)
             .catch(e => {
               console.warn(e);
               alert('We were not able to send a message to the host at this time.');
@@ -446,7 +439,7 @@ const dataModel = {
       });
     
 
-    const message="### お客様来社通知" + "\n * お客様名: " + this.guest + "\n * 部屋: " + this.bookRoom + "\n * 担当: " + this.host + "\n";
+    //const message="### お客様来社通知" + "\n * お客様名: " + this.guest + "\n * 部屋: " + this.bookRoom + "\n * 担当: " + this.host + "\n";
 
     const roomId = this.getRoomId();
     if (!roomId){
@@ -454,7 +447,7 @@ const dataModel = {
     }
 
     // send message to room members
-    sendMessageRoom(token, roomId, message)
+    sendMessageRoom(token, roomId, msg, this.photo)
     .catch(e => {
       console.warn(e);
       alert('We were not able to send a message to the host at this time.');
