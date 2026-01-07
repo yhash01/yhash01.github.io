@@ -1,0 +1,109 @@
+<!--A Design by W3layouts
+Author: W3layout
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE html>
+<html>
+<head>
+<title>Click to Call demo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<!-- <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script> -->
+<!-- bootstrap-css -->
+<!-- <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" /> -->
+<!--// bootstrap-css -->
+<!-- css -->
+<link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
+
+
+<!-- <script src="js/jquery-1.11.1.min.js"></script> -->
+<!-- <script src="js/bootstrap.js"></script> -->
+
+<!-- //parallax -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+<!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/latest/css/all.css"> -->
+</head>
+<body>
+	<!-- banner -->
+
+	<!-- <div class="banner about-bg" id="body-header">
+		<div class="top-banner about-top-banner">
+			<div class="container"> -->
+
+				<!-- <div class="top-banner-right"> -->
+					<button class="dropbtn">
+						<img src="images/harvey_avatar.jpeg" alt="Avatar" class="avatar">
+						<i id="availability" class="fas fa-circle"></i>
+					</button>
+
+				<!-- </div> -->
+<!-- 
+			</div>
+		</div>
+		
+	</div> -->
+	<!-- //banner -->
+	<!-- blog -->
+		<!-- <div id="body" class="blog"> -->
+			<button class="call-support-btn-dis" onclick="initiateCall()" id="myCallButton" disabled="true"> Make a call 電話をかける </button>
+		<!-- </div> -->
+		<!-- //blog -->
+
+		<!-- Call Notification -->
+		<div class="incoming-call-notification timestate" id="callNotification">
+			<div class="notifier-a">
+				<div class="call-avatar">HY</div>
+				<div class="call-info">
+					<div class="callee-name">Customer Care</div>
+				</div>
+				<div class="call-time" id="call-time">
+					<span id="timer">00:01</span>
+					<span class="blink_me" id="hold-status">On Hold</span>
+				</div>
+				<div class="call-actions">
+					<button class="cut-call-btn" onclick="disconnectCall()">X</button>
+				</div>
+			</div>
+			<div class="notifier-a-digits hide-digits" id="notifier-a-digits">
+				<button onclick="pressDigit('1')">1</button>
+				<button onclick="pressDigit('2')">2</button>
+				<button onclick="pressDigit('3')">3</button>
+				<button onclick="pressDigit('4')">4</button>
+				<button onclick="pressDigit('5')">5</button>
+				<button onclick="pressDigit('6')">6</button>
+				<button onclick="pressDigit('7')">7</button>
+				<button onclick="pressDigit('8')">8</button>
+				<button onclick="pressDigit('9')">9</button>
+				<button onclick="pressDigit('0')">0</button>
+				<button onclick="pressDigit('#')">#</button>
+				<button onclick="pressDigit('*')">*</button>
+			</div>
+			<div class="notifier-a-controls hide-controls" id="notifier-a-controls">
+				<button class="mute tooltip-trigger" data-tooltip="Mute" onclick="toggleMute()"><i class="fa fa-microphone"></i></button>
+			</div>
+
+		</div>
+
+		<div id="myLoading"> Loading ... 準備完了まで少々お待ち下さい。 </div>
+
+		<audio id="customer-remote-audio" autoplay></audio>
+
+		<div class="tooltip-calling">Tooltip Text</div>
+	<script src="https://unpkg.com/webex/umd/webex.min.js"></script>
+	<script src='https://unpkg.com/webex/umd/calling.min.js'></script>
+	<script type="text/javascript" src="./js/timer.js"></script>
+	<script type="text/javascript" src="./js/my_app.js"></script>
+	<script type="text/javascript" src="./sdk/my_calling.js"></script>
+	<script type="text/javascript">
+		window.onload = () => {
+
+			initCalling('customer');
+		}
+
+		
+	</script>
+</body>	
+</html>
